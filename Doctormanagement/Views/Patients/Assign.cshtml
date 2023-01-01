@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Doctormanagement.Models.Patient>
+
+@{
+    ViewData["Title"] = "Assign";
+}
+
+<h1>Assign</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    
+        <tr>
+             <td hidden>
+                @Html.DisplayFor(modelItem => item.Patient_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Email)
+            </td>
+             <td>
+               <input type="datetime-local" class="date" required class="form-control" />
+             </td>
+              <td>
+             <select  class ="form-control" required asp-items="ViewBag.Doctor"></select>
+             
+              </td>
+
+              <td>
+                  <input class="btn-success submit"  type="submit" placeholder="Assign">
+              </td>
+
+          
+        </tr>
+
+}
+    </tbody>
+</table>
+
+
+ @section scripts{
+     <script>
+            
+             $(".submit").click(function(){
+                 var pid = $(this).closest('tr').find("td:eq(0)").text();
+  
+                 var date = $(".date").val().replace("T", " ");
+                 var doid = $(this).closest('tr').find("td:eq(7)").text();
+                 var dod = doid.replace(/\n/g, "").trim();
+                 var did = dod.replace(/ *\([^)]*\) */g, "");
+                 console.log("Hello world" );
+                 console.log(pid + date + did);
+
+                 
+        $.ajax({
+
+          'url': '@Url.Action("Add","Appointment")',
+             
+            'type': 'post',
+            'data': { pid,date,did },
+            'success': function() {
+                console.log("Success");
+                     
+            
+            },
+            'error': function() {
+                 
+            },
+        }); 
+             })
+            
+     </script>
+
+ }

@@ -1,0 +1,62 @@
+﻿	<div id="calendar"></div>
+
+    <div id="cand"></div>
+
+
+@section scripts{
+    
+     <script>
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',
+
+        });
+
+
+          $.ajax({ 
+        type: 'GET', 
+        url: '@Url.Action("Index","PatientAppoint")', 
+        data: { get_param: 'value' }, 
+        success: function (doctorVM) { 
+            $.each(doctorVM, function(i, item) {
+                
+                 calendar.addEvent({
+              title: "Age : "+item.age +"patient : "+ item.name ,
+              start: item.date,
+              allDay: true
+          });
+
+            });
+
+
+            
+
+
+            
+           
+        }
+    });
+
+         
+         
+
+           
+          
+        calendar.render();
+
+      });
+
+      
+  
+        
+
+           
+    </script>
+ 
+
+
+
+
+}
