@@ -12,7 +12,7 @@ namespace Doctormanagement.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> Add(int pid , string date , string did)
+        public async Task<IActionResult> Add(int pid , string date , int did)
         {
            Appointment appointment = new Appointment();
            appointment.Appointed_Date = date;
@@ -20,8 +20,8 @@ namespace Doctormanagement.Controllers
            await _context.SaveChangesAsync();
 
 
-            var Appointed_id = _context.Appointments.Where(x => x.Appointed_Date == date).First().Appoint_Id;
-            var doctor_id = _context.Doctors.Where(x=>x.Name == did).First().Doctor_Id;
+            var Appointed_id = _context.Appointments.Where(x => x.Appointed_Date == date).FirstOrDefault().Appoint_Id;
+           // var doctor_id = _context.Doctors.Where(x=>x.Name == did).FirstOrDefault().Doctor_Id;
            
             PatientAppoint patientAppoint = new PatientAppoint();
             patientAppoint.Appoint_Id = Appointed_id;
@@ -31,7 +31,7 @@ namespace Doctormanagement.Controllers
 
             DoctorAppoint doctorAppoint = new DoctorAppoint();
             doctorAppoint.Appoint_Id = Appointed_id;
-            doctorAppoint.Doctor_Id = doctor_id;
+            doctorAppoint.Doctor_Id = did;
             await _context.AddAsync(doctorAppoint);
             await _context.SaveChangesAsync();
 

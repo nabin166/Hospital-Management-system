@@ -22,8 +22,8 @@ namespace Doctormanagement.Controllers
 
         public async Task<IActionResult> Assign()
         {
-
-            var doctorDbcontext = _context.Patients.Include(p => p.User).Where(x=>x.PatientAppoints.Where(x=>x.Patient_Id != x.Patient.Patient_Id).Count()>=1);
+           //Where(x => x.PatientAppoints.Where(x => x.Patient_Id != x.Patient.Patient_Id).Count() >= 1)
+            var doctorDbcontext = _context.Patients.Include(p => p.User).Include(p => p.PatientAppoints).Where(x => x.PatientAppoints.Where(x => x.Patient_Id == x.Patient.Patient_Id).Count() != 1); ;
             ViewData["Doctor"] = new SelectList(_context.Doctors, "Doctor_Id", "CheckName");
             return View(await doctorDbcontext.ToListAsync());
         }
@@ -31,7 +31,7 @@ namespace Doctormanagement.Controllers
         public async Task<IActionResult> Assigned()
         {
             
-            var doctorDbcontext = _context.Patients.Include(p => p.User).Include(x=>x.PatientAppoints).Where(x => x.PatientAppoints.Where(x => x.Patient_Id != x.Patient.Patient_Id).Count() <= 1);
+            var doctorDbcontext = _context.Patients.Include(p => p.User).Include(p=>p.PatientAppoints).Where(x=>x.PatientAppoints.Where(x=>x.Patient_Id == x.Patient.Patient_Id).Count() == 1);
             ViewData["Doctor"] = new SelectList(_context.Doctors, "Doctor_Id", "CheckName");
             return View(await doctorDbcontext.ToListAsync());
         }

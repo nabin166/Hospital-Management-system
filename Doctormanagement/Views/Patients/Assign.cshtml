@@ -54,7 +54,7 @@
                <input type="datetime-local" class="date" required class="form-control" />
              </td>
               <td>
-             <select  class ="form-control" required asp-items="ViewBag.Doctor"></select>
+             <select  class ="form-control doctor" required  asp-items="ViewBag.Doctor"></select>
              
               </td>
 
@@ -77,7 +77,8 @@
                  var pid = $(this).closest('tr').find("td:eq(0)").text();
   
                  var date = $(".date").val().replace("T", " ");
-                 var doid = $(this).closest('tr').find("td:eq(7)").text();
+               //  var doid = $(this).closest('tr').find("td:eq(7)").text();
+                 var doid = $(".doctor").val();
                  var dod = doid.replace(/\n/g, "").trim();
                  var did = dod.replace(/ *\([^)]*\) */g, "");
                  console.log("Hello world" );
